@@ -1,8 +1,9 @@
 {
   "name": "rusty-bot",
-  "version": "1.0.0",
-  "description": "Rust Bot to post Rust Blogs to Discord.",
+  "version": "0.1.0",
+  "description": "Rust Bot (Webhook) to post Rust Blogs to Discord.",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "node ."
   },
