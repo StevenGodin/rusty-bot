@@ -19,7 +19,7 @@ function readCompletedFile(path) {
   return set;
 }
 
-(async () => {
+const checkRustBlog = async () => {
   // Read completed items from file
   const rustBlogFilePath = "./rust-blog-completed.txt";
   const rustBlogCompleted = readCompletedFile(rustBlogFilePath);
@@ -90,4 +90,8 @@ function readCompletedFile(path) {
       });
     }
   }
-})();
+};
+
+// Check every hour
+setInterval(checkRustBlog, 1 * 60 * 1000);
+checkRustBlog();
