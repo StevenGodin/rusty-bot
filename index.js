@@ -92,8 +92,87 @@ const checkRustBlog = async () => {
   }
 };
 
+const checkRustafied = async () => {
+  // Read completed items from file
+  const completedFilePath = "./rustafied-completed.txt";
+  const completed = readCompletedFile(completedFilePath);
+
+  const res = await fetch("https://www.rustafied.com/");
+  const html = await res.text();
+  //console.log(html);
+
+  // Parse articles
+  const contentDom = new JSDOM(html);
+  const articles = contentDom.window.document.querySelectorAll("article");
+  const embeds = [];
+  const links = [];
+  articles.forEach(a => {
+    const imgSrc =
+      a.querySelector("img").getAttribute("data-src") + "?format=1500w";
+    const title = a.querySelector("h1").textContent;
+    const link = a
+      .querySelector("h1")
+      .querySelector("a")
+      .getAttribute("href");
+
+    // Skip Item if already completed
+    if (completed.has(link)) return;
+
+    // Create Discord embed
+    const embed = {
+      title: title,
+      url: "https://www.rustafied.com" + link,
+      color: 13059328,
+      image: {
+        url: imgSrc
+      },
+      author: {
+        name: "Rustafied",
+        url: "https://www.rustafied.com",
+        icon_url:
+          "https://static1.squarespace.com/static/5420d068e4b09194f76b2af6/t/5a8e03e308522948dff12426/favicon.ico"
+      }
+    };
+    embeds.push(embed);
+    links.push(link);
+  });
+
+  // POST embeds to Discord if any exist
+  if (!embeds.length) {
+    console.log("No Embeds to message!");
+  } else {
+    const discordEmbeds = {
+      embeds
+    };
+    console.log(discordEmbeds);
+    const res = await fetch(rustyBotWebHook, {
+      method: "POST",
+      body: JSON.stringify(discordEmbeds),
+      headers: { "Content-Type": "application/json" }
+    });
+    console.log(`Discord Response Status Code: ${res.status}`);
+
+    // On Success
+    if (res.status >= 200 && res.status < 300) {
+      console.log("Discord POST Success!!!");
+      links.forEach(link => completed.add(link));
+      itemsString = links.join("\n");
+      await fs.appendFile(completedFilePath, itemsString + "\n", err => {
+        if (err) throw err;
+        console.log(
+          `Updated "${completedFilePath}" with ${links.length}x links`
+        );
+      });
+    }
+  }
+};
+
 const toMilliseconds = (h, m = 0, s = 0) => (h * 60 * 60 + m * 60 + s) * 1000;
+const checkAll = () => {
+  checkRustBlog();
+  checkRustafied();
+};
 
 // Check every hour
-setInterval(checkRustBlog, toMilliseconds(1));
-checkRustBlog();
+setInterval(checkAll, toMilliseconds(1));
+checkAll();
