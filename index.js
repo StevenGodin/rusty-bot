@@ -92,6 +92,8 @@ const checkRustBlog = async () => {
   }
 };
 
+const toMilliseconds = (h, m = 0, s = 0) => (h * 60 * 60 + m * 60 + s) * 1000;
+
 // Check every hour
-setInterval(checkRustBlog, 1 * 60 * 1000);
+setInterval(toMilliseconds(1));
 checkRustBlog();
