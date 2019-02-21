@@ -1,5 +1,6 @@
 # Rusty Bot
 
+[![Build Status](https://travis-ci.org/StevenGodin/rusty-bot.svg?branch=master)](https://travis-ci.org/StevenGodin/rusty-bot)
 [![Greenkeeper badge](https://badges.greenkeeper.io/StevenGodin/rusty-bot.svg)](https://greenkeeper.io/)
 
 Rust Bot (Webhook) to post Rust Blogs to Discord.
