@@ -12,7 +12,7 @@
   "author": "Steven Godin",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^6.2.0",
+    "dotenv": "^8.0.0",
     "jsdom": "^13.2.0",
     "node-fetch": "^2.3.0",
     "rss-parser": "^3.6.2"
