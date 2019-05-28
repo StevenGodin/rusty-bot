@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.2.0",
-    "jsdom": "^13.2.0",
+    "jsdom": "^15.1.1",
     "node-fetch": "^2.3.0",
     "rss-parser": "^3.6.2"
   }
